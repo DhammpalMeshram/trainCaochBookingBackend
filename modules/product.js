@@ -13,7 +13,8 @@ const productSchema = new mongoose.Schema({
     quantity:{type:Number},
     description:{type:String},
     discount: {type:String},
-    tagline:{type:String}
+    tagline:{type:String},
+    type:{type:[String]}
 })
 
 //Creating Collection
