@@ -1,0 +1,11 @@
+first crate pacakge.json with "npm init" commond
+then install following packages
+npm i express
+npm i dotenv
+npm i nodemon
+npm i mongoose
+npm i cors
+npm i body-parser
+
+i used es6 concept for import and export 
+
