@@ -1,14 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import {defaultData} from "./defaultData.js";
+import {checkDataAvailability} from "./defaultData.js";
 import router from "./routes/routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
-// const express = require("express");
-// const dotenv = require("dotenv");
-// const mongoose = require("mongoose");
-// const defaultData = require("./defaultData.js");
+
 
 dotenv.config();
 const app = express();
@@ -23,7 +20,8 @@ const dataBaseConnect = async()=>{
     try{
         await mongoose.connect(process.env.MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true})
         console.log("Database is connected successfully");
-
+        checkDataAvailability();
+        // bookTicketsData(4,"20230527");
     }
     catch(err){
         console.log(err.message);
@@ -36,4 +34,5 @@ app.listen(process.env.PORT, ()=>{
     console.log("server is running at port "+process.env.PORT);
 })
 
-// defaultData();
+
+

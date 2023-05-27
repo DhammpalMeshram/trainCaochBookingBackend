@@ -1,12 +1,10 @@
 import express from "express";
-import {signUpController, signInController} from "../controllers/userController.js";
-import { getAllProducts, getProductById } from "../controllers/productController.js";
+import { getAllDataController, bookSeatController,getSeatNumbers } from "../controllers/seatController.js";
 
 const router = express.Router();
 
-router.post("/signup", signUpController);
-router.post("/signin", signInController);
-router.get("/product", getAllProducts);
-router.get('/product/:id', getProductById)
+router.post("/getalldata", getAllDataController);
+router.post("/booktickets", bookSeatController);
+router.post("/getseatnumbers", getSeatNumbers)
 
 export default router;
