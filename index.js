@@ -6,6 +6,7 @@ import router from "./routes/routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 
+const PORT = process.env.PORT || 8000;
 
 dotenv.config();
 const app = express();
@@ -32,7 +33,7 @@ const dataBaseConnect = async()=>{
 // connetcting with database
 dataBaseConnect();
 
-app.listen(process.env.PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log("server is running at port "+process.env.PORT);
 })
 
