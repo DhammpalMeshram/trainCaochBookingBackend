@@ -2,7 +2,7 @@ import Seats from "./modules/seats.js";
 import DateRecord from "./modules/dateRecord.js";
 
 // function to get current date
-function getCurrentDate(separator=''){
+export function getCurrentDate(separator=''){
     let newDate = new Date()
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
@@ -12,14 +12,15 @@ function getCurrentDate(separator=''){
 }
 
 
-//function to check that date is generated or not for today date
-export const checkDataAvailability = async()=>{
-    const todaysDate = getCurrentDate();
-    // const todaysDate = 20230529;
-    // await Seats.deleteMany();
-    // await DateRecord.deleteMany();
+//function to check that data is generated or not for today date
+// if data is already there it will not dublicate it but if data
+// is not there it will create data in database
+// it helps in automatic data generation dailly
 
+export const checkDataAvailability = async(todaysDate)=>{
     try{
+        // await DateRecord.deleteMany();
+        // await Seats.deleteMany();
         let checkDate = await DateRecord.find({date:todaysDate});
         if(checkDate.length) {
             console.log("date is found returning from here");
@@ -51,7 +52,7 @@ const generateData = (todaysDate)=>{
         seatArrayObject.push(rowArray);
     }
     console.log("data is generated successfully");
-    return storeDefaultData(seatArrayObject, todaysDate);
+    storeDefaultData(seatArrayObject, todaysDate);
 }
 
 
@@ -68,91 +69,17 @@ const storeDefaultData = async (data, todaysDate)=>{
                 gents:0,
                 ladies:0,
                 other:0,
-                freeSeatsArray:{"1":7,"2":7, "3":7, "4":7,"5":7, "6":7,'7':7,'8':7,'9':7,'10':7,'11':7,"12":3}
+                freeSeatsArray:{"0":7,"1":7, "2":7, "3":7,"4":7, "5":7,'6':7,'7':7,'8':7,'9':7,'10':7,"11":3}
             })
         await newSeatsData.save();
         let newDate = new DateRecord({date:todaysDate})
         await newDate.save();
         console.log("Data inserted Successfully");
+        // let seats = await Seats.findOne({generationDate:todaysDate});
+        // res.status(200).json({seats,bookedTicketNumber:[]});
     }
     catch(err){
         console.log("data insertion failed "+err);
     }
 };
-
-let  ArrayIndex = 0;
-
-//function to update booking data
-// export const bookTicketsData = async (seatsTOBook, todaysDate)=>{
-//     try{
-//         let seatNumbers = seatsTOBook;
-//         console.log("Storing Data in DataBase "+"for date "+todaysDate);
-//         let seatData  = await Seats.findOne({generationDate:todaysDate})
-//         let newSeatData = {};
-
-        
-//         let {freeSeatsArray} = seatData;
-//         let toProceedFurther = true;
-
-//         for (const key in freeSeatsArray) {
-//             if (freeSeatsArray[key] >= seatsTOBook && toProceedFurther){
-//                 ArrayIndex = key;
-
-//                 console.log(ArrayIndex);
-//                 // console.log(seatData .data[--ArrayIndex]);
-//                 const targetedArray = seatData.data[ArrayIndex];
-//                 console.log(targetedArray.length);
-
-//                 let newArray = [];
-//                 for(let i=0; i<targetedArray.length; i++){
-//                     if(targetedArray[i].seatType==='availabel' && seatsTOBook >0){
-//                         // console.log("entert in if condition");
-//                         let newObject = {
-//                             id:targetedArray[i].id,
-//                             seatType: "booked",
-//                             rowNumber: targetedArray[i].rowNumber,
-//                             bookedBy: targetedArray[i].bookedBy,
-//                         }
-//                         newArray.push(newObject);
-//                         seatsTOBook--;
-//                     }
-//                     else newArray.push(targetedArray[i]);
-//                 }
-
-//                     // console.log("below is the new Array out of if");
-//                     // console.log(newArray);
-//                     //update the data
-//                     let ArraytoUpdata = seatData.data;
-//                     ArraytoUpdata[ArrayIndex] = newArray;
-
-//                     console.log("updated array");
-//                     // console.log(ArraytoUpdata);
-//                     // console.log(seatsTOBook);
-//                     // console.log(+seatData.avalableSeats-seatNumbers);
-//                     // console.log(+seatData.bookedSeats+seatNumbers);
-//                     const freeSeatsArray = {...seatData.freeSeatsArray};
-//                     freeSeatsArray[ArrayIndex] -= seatNumbers;
-                    
-//                     // console.log(freeSeatsArray);
-//                     newSeatData = {
-//                         'freeSeatsArray':freeSeatsArray,
-//                         'data': ArraytoUpdata,
-//                         'avalableSeats': +seatData.avalableSeats-seatNumbers,
-//                         'bookedSeats': +seatData.bookedSeats+seatNumbers,
-//                     };
-
-//                     // console.log(newSeatData);
-//                 toProceedFurther = false;
-//             }
-//         }
-
-//         const newSavedValues = await Seats.findOneAndUpdate({generationDate:todaysDate},{...newSeatData})
-        
-//         console.log(newSavedValues);
-//     }
-//     catch(err){
-//         console.log("data fetch failed "+err.message);
-//     }
-// }
-
 

@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import {checkDataAvailability} from "./defaultData.js";
+import {checkDataAvailability, getCurrentDate} from "./defaultData.js";
 import router from "./routes/routes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -20,14 +20,16 @@ const dataBaseConnect = async()=>{
     try{
         await mongoose.connect(process.env.MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true})
         console.log("Database is connected successfully");
-        checkDataAvailability();
-        // bookTicketsData(4,"20230527");
+        // checking data avialability in database
+        let date = getCurrentDate();
+        checkDataAvailability(date);
     }
     catch(err){
-        console.log(err.message);
+        console.log(err);
     }
 }
 
+// connetcting with database
 dataBaseConnect();
 
 app.listen(process.env.PORT, ()=>{

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// each day record structure
 const seatSchema = new mongoose.Schema({
     generationDate:{type:String},
     data:{type:[Array]},
