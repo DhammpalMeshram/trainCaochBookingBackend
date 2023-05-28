@@ -34,7 +34,7 @@ const dataBaseConnect = async()=>{
 dataBaseConnect();
 
 app.listen(PORT, ()=>{
-    console.log("server is running at port "+process.env.PORT);
+    console.log("server is running at port "+PORT);
 })
 
 
